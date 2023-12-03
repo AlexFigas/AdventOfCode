@@ -4,12 +4,14 @@
 #include <string>
 #include <vector>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     // Open the input file
     std::ifstream input_file("input.txt");
 
     // Check if the file is opened successfully
-    if (!input_file.is_open()) {
+    if (!input_file.is_open())
+    {
         std::cerr << "Error opening input file!" << std::endl;
         return EXIT_FAILURE;
     }
@@ -22,23 +24,28 @@ int main(int argc, char *argv[]) {
 
     // Read each line from the input file
     std::string line;
-    while (std::getline(input_file, line)) {
+    while (std::getline(input_file, line))
+    {
         // Vector to store digits extracted from the line
         std::vector<int> digits;
 
         // Iterate through each character in the line
-        for (int i = 0; i < line.size(); ++i) {
+        for (int i = 0; i < line.size(); ++i)
+        {
             const auto &c = line[i];
 
             // Check if the character is a digit
-            if (std::isdigit(c)) {
+            if (std::isdigit(c))
+            {
                 digits.push_back(c - '0');
             }
 
             // Check if the substring matches any of the named numbers
-            for (int j = 0; j < numbers.size(); ++j) {
+            for (int j = 0; j < numbers.size(); ++j)
+            {
                 const auto &n = numbers[j];
-                if (line.size() >= i + n.size() && line.substr(i, n.size()) == n) {
+                if (line.size() >= i + n.size() && line.substr(i, n.size()) == n)
+                {
                     digits.push_back(j + 1);
                 }
             }
