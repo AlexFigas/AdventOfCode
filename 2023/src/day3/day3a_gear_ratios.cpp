@@ -8,10 +8,10 @@
 /// @brief Struct to represent a number and its location in the map
 struct Number
 {
-    int row;
-    int col;
-    int value;
-    int order; // number of digits in the number
+    int row;   ///< Row index in the map
+    int col;   ///< Column index in the map
+    int value; ///< Numeric value of the number
+    int order; ///< Number of digits in the number
 };
 
 /// @brief Function to add a number to the 'numbers' vector
@@ -33,8 +33,8 @@ int main(int argc, char *argv[])
     }
 
     std::string line;
-    std::vector<std::string> map;
-    std::vector<Number> numbers; // store numbers and their location
+    std::vector<std::string> map; ///< Vector to store lines of the map
+    std::vector<Number> numbers;  ///< Vector to store numbers and their location in the map
 
     // Process each line in the file
     while (std::getline(inputFile, line))
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 
     // Calculate and print the total of overlapping numbers
     const auto total = std::accumulate(std::begin(overlappingNumbers), std::end(overlappingNumbers), 0);
-    std::cout << "Total overlapping sum: " << total << '\n';
+    std::cout << total << std::endl;
 
-    return 0;
+    return EXIT_SUCCESS;
 }

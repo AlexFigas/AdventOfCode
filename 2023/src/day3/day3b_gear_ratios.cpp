@@ -6,18 +6,20 @@
 #include <vector>
 #include <unordered_map>
 
+/// @brief Struct to represent a number and its location in the map
 struct Number
 {
-    int col_;
-    int row_;
-    int number_;
-    int order_;
+    int col_;    ///< Column index in the map
+    int row_;    ///< Row index in the map
+    int number_; ///< Numeric value of the number
+    int order_;  ///< Number of digits in the number
 };
 
+/// @brief Struct to represent a gear in the map
 struct Gear
 {
-    int n_ = 0;
-    std::vector<int> numbers_;
+    int n_ = 0;                ///< Number of numbers on the gear
+    std::vector<int> numbers_; ///< Vector to store numbers present on the gear
 };
 
 /// @brief Function to add a number to the 'numbers' vector
@@ -46,6 +48,7 @@ int main(int argc, char *argv[])
     std::vector<std::string> map;
     std::vector<Number> numbers; // store numbers and their location
 
+    // Process each line in the file
     while (std::getline(input_file, line))
     {
         map.push_back(line);
@@ -54,7 +57,7 @@ int main(int argc, char *argv[])
         int start = 0;
         int order = 0;
 
-        // Function to add the parsed number to the 'numbers' vector
+        // Lambda function to add the parsed number to the 'numbers' vector
         const auto add_util = [&]()
         {
             addNumber(numbers, map.size() - 1, start, number, order);
@@ -63,9 +66,11 @@ int main(int argc, char *argv[])
             order = 0;
         };
 
+        // Parse each character in the line
         for (int i = 0; i < line.size(); i++)
         {
             const char c = line[i];
+
             if (c >= '0' && c <= '9')
             {
                 if (is_number == false)
@@ -82,11 +87,13 @@ int main(int argc, char *argv[])
             {
                 is_number = false;
             }
+
             if (number != -1 && !is_number)
             {
                 add_util();
             }
         }
+
         if (number != -1)
         {
             add_util();
@@ -95,6 +102,7 @@ int main(int argc, char *argv[])
 
     std::unordered_map<int, Gear> gears;
 
+    // Check for gears in the map and count the numbers on each gear
     for (const auto &n : numbers)
     {
         for (int row = n.row_ - 1; (row <= n.row_ + 1); row++)
@@ -132,6 +140,7 @@ int main(int argc, char *argv[])
 
     std::size_t ans = 0;
 
+    // Calculate and print the product of numbers on gears with exactly two numbers
     for (const auto &[id, gear] : gears)
     {
         if (gear.n_ == 2)
@@ -140,7 +149,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    std::cout << ans << '\n';
+    std::cout << ans << std::endl;
 
-    return 0;
+    return EXIT_SUCCESS;
 }

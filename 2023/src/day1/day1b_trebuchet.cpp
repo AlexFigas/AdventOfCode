@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     const auto sum = std::accumulate(std::begin(calibration_values), std::end(calibration_values), 0);
 
     // Print the sum of calibration values
-    std::cout << sum << '\n';
+    std::cout << sum << std::endl;
 
     return EXIT_SUCCESS;
 }

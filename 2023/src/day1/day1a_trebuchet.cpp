@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-int main()
+int main(int argc, char *argv[])
 {
     // Open the input file
     std::ifstream input_file("input.txt");

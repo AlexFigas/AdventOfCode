@@ -97,7 +97,7 @@ Game parse_game(const std::string_view game_str)
     return game;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     // Open the input file
     std::ifstream input_file("input.txt");
@@ -139,6 +139,6 @@ int main()
     }
 
     // Print the total minimum cubes required
-    std::cout << total << '\n';
+    std::cout << total << std::endl;
     return EXIT_SUCCESS;
 }

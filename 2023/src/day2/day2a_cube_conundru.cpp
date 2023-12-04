@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
     }
 
     // Print the total count of playable games
-    std::cout << count << '\n';
+    std::cout << count << std::endl;
 
     return EXIT_SUCCESS;
 }
