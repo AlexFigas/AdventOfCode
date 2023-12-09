@@ -28,7 +28,7 @@ struct Card
     std::size_t copies;               ///< Number of copies of the card
 };
 
-int main()
+int main(int argc, char *argv[])
 {
     std::ifstream file("input.txt");
 

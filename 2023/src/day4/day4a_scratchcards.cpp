@@ -36,7 +36,7 @@ std::vector<int> extract_numbers(const std::string &s)
     return numbers;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
     std::ifstream input_file("input.txt");
 
