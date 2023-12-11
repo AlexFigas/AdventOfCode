@@ -6,35 +6,41 @@
 #include <string>
 #include <vector>
 
+/// @brief Represents a mapping from a source range to a destination range
 struct Mapping
 {
-    long long destinationStart;
-    long long sourceStart;
-    long long range;
+    long long destinationStart; ///< Start of the destination range
+    long long sourceStart;      ///< Start of the source range
+    long long range;            ///< Range of the mapping
 
+    /// @brief Check if a value is within the destination range
     bool inDestinationRange(const long long n) const
     {
         return n >= destinationStart && n <= destinationStart + range;
     }
 
+    /// @brief Check if a value is within the source range
     bool inSourceRange(const long long n) const
     {
         return n >= sourceStart && n <= sourceStart + range;
     }
 
+    /// @brief Get the mapped value for a given source value
     long long getMapping(const long long n) const
     {
         return destinationStart + (n - sourceStart);
     }
 };
 
+/// @brief Represents a mapping from one map to another
 struct Map
 {
-    std::string mapFrom;
-    std::string mapTo;
-    std::vector<Mapping> mappings;
+    std::string mapFrom;         ///< Name of the source map
+    std::string mapTo;           ///< Name of the destination map
+    std::vector<Mapping> mappings; ///< List of mappings
 };
 
+/// @brief Extracts numbers from a string and returns them as a vector of long long
 std::vector<long long> extract(const std::string &s)
 {
     std::vector<long long> numbers;
@@ -50,6 +56,7 @@ std::vector<long long> extract(const std::string &s)
     return numbers;
 }
 
+/// @brief Recursively gets the final location from the maps
 long long getLocation(long long value, const std::vector<Map> &maps, const std::string &mapFrom)
 {
     if (mapFrom == "location")
@@ -86,7 +93,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    std::vector<Map> maps;
+    std::vector<Map> maps;        ///< List of maps
     std::getline(file, line);
     std::vector<long long> seeds = extract(line.substr(7, line.size() - 7));
 

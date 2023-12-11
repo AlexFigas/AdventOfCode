@@ -21,7 +21,6 @@ struct Card
 /// @brief Function to extract numbers from a string and return them as a vector of integers
 std::vector<int> extract_numbers(const std::string &s)
 {
-    std::cout << s << '\n'; // Print the input string (for debugging purposes)
     std::vector<int> numbers;
 
     // Iterate through the string, extracting two-digit numbers at intervals of 3 characters

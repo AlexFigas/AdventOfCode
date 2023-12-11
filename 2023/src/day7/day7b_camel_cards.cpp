@@ -7,15 +7,17 @@
 #include <vector>
 #include <array>
 
+/// @brief Represents a hand of cards
 struct Hand
 {
     std::string cards;
-    std::array<int, 5> labelValues;
-    int type;
+    std::array<int, 5> labelValues; ///< Numeric values corresponding to card labels
+    int type;                       ///< Type of hand (e.g., straight, full house, etc.)
 };
 
 constexpr std::array<char, 13> labels{{'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'}};
 
+/// @brief Determines the type of hand based on the given cards
 int getType(const std::string &cards)
 {
     std::unordered_map<char, int> cardCount;
@@ -30,16 +32,16 @@ int getType(const std::string &cards)
 
     if (cardCount.size() == 1)
     {
-        return 6;
+        return 6; // All cards of the same rank
     }
     if (cardCount.size() == 2 && (cardCount['J'] != 0))
     {
-        return 6;
+        return 6; // All cards of the same rank, including a Jack
     }
 
     if (cardCount.size() == 2 && (cardCount[cards[0]] == 4 || cardCount[cards[0]] == 1))
     {
-        return 5;
+        return 5; // Four of a kind or a single card
     }
     if (cardCount.size() == 3)
     {
@@ -48,13 +50,13 @@ int getType(const std::string &cards)
             if (card == 'J')
                 continue;
             if (n + cardCount['J'] == 4)
-                return 5;
+                return 5; // Four of a kind with a Jack
         }
     }
 
     if (cardCount.size() == 2 && (cardCount[cards[0]] == 3 || cardCount[cards[0]] == 2))
     {
-        return 4;
+        return 4; // Full house or two pairs
     }
     if (cardCount.size() == 3)
     {
@@ -63,7 +65,7 @@ int getType(const std::string &cards)
             if (card == 'J')
                 continue;
             if (n + cardCount['J'] == 3)
-                return 4;
+                return 4; // Full house with a Jack
         }
     }
 
@@ -82,37 +84,39 @@ int getType(const std::string &cards)
             countThreeOfAKind++;
     }
     if (countThreeOfAKind == 1)
-        return 3;
+        return 3; // Three of a kind
     for (const auto [card, n] : cardCount)
     {
         if (card == 'J')
             continue;
         if (n + cardCount['J'] == 3)
-            return 3;
+            return 3; // Three of a kind with a Jack
     }
     if (countPairs > 0 && cardCount['J'] > 0)
-        return 3;
+        return 3; // Three of a kind with a pair, including a Jack
     if (countPairs == 2)
-        return 2;
+        return 2; // Two pairs
     if (countPairs + std::min(single, cardCount['J']) == 2)
-        return 2;
+        return 2; // Two pairs with a Jack
     if (countPairs == 1)
-        return 1;
+        return 1; // One pair
     for (const auto [card, n] : cardCount)
     {
         if (card == 'J')
             continue;
         if (n + cardCount['J'] == 2)
-            return 1;
+            return 1; // One pair with a Jack
     }
-    return 0;
+    return 0; // High card
 }
 
+/// @brief Gets the numeric value of a card label
 int getValue(const char label)
 {
     return std::distance(std::begin(labels), std::find(std::begin(labels), std::end(labels), label));
 }
 
+/// @brief Parses a line to extract a hand and bid value
 std::pair<Hand, int> getHandAndBid(const std::string &line)
 {
     const auto idx = line.find(' ');
@@ -127,6 +131,7 @@ std::pair<Hand, int> getHandAndBid(const std::string &line)
     return std::make_pair(hand, std::stoi(line.substr(idx, line.size() - idx)));
 }
 
+/// @brief Compares two hands for sorting
 bool compareHands(const Hand &hand1, const Hand &hand2)
 {
     if (hand1.type > hand2.type)
