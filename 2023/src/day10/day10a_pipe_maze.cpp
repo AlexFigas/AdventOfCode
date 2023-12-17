@@ -8,16 +8,19 @@
 #include <array>
 
 // Structure to represent a point with row and column
-struct Point {
+struct Point
+{
     int row;
     int col;
 
     // Comparison operators for points
-    bool operator==(const Point& p) const {
+    bool operator==(const Point &p) const
+    {
         return p.row == row && p.col == col;
     }
 
-    bool operator!=(const Point& p) const {
+    bool operator!=(const Point &p) const
+    {
         return !(p == *this);
     }
 
@@ -25,7 +28,8 @@ struct Point {
 };
 
 // Function to check if a point is within the limits of the map
-bool in_limits(const Point& p, const std::vector<std::string>& map) {
+bool in_limits(const Point &p, const std::vector<std::string> &map)
+{
     return p.row >= 0 && p.row < map.size() && p.col >= 0 && p.col < map[p.row].size();
 }
 
@@ -33,16 +37,20 @@ bool in_limits(const Point& p, const std::vector<std::string>& map) {
 const std::array<Point, 4> deltas = {{{-1, 0}, {0, 1}, {1, 0}, {0, -1}}};
 
 // Function to get the next point based on the current point, previous point, map, and direction map
-Point get_next_point(const Point& point, const Point& previous_point, const std::vector<std::string>& map, const std::vector<std::vector<std::array<int, 4>>>& direction_map) {
+Point get_next_point(const Point &point, const Point &previous_point, const std::vector<std::string> &map, const std::vector<std::vector<std::array<int, 4>>> &direction_map)
+{
     std::vector<Point> next_points;
-    const auto& point_directions = direction_map[point.row][point.col];
+    const auto &point_directions = direction_map[point.row][point.col];
 
-    for (int i = 0; i < 4; i++) {
-        if (point_directions[i]) {
+    for (int i = 0; i < 4; i++)
+    {
+        if (point_directions[i])
+        {
             const Point next_point(point.row + deltas[i].row, point.col + deltas[i].col);
 
             // Check if the next point is within limits and has a valid reverse direction
-            if (in_limits(next_point, map) && direction_map[next_point.row][next_point.col][(i + 2) % 4] && next_point != previous_point) {
+            if (in_limits(next_point, map) && direction_map[next_point.row][next_point.col][(i + 2) % 4] && next_point != previous_point)
+            {
                 return next_point;
             }
         }
@@ -51,26 +59,31 @@ Point get_next_point(const Point& point, const Point& previous_point, const std:
 }
 
 // Structure to represent a Point and a step count
-struct PointStep {
+struct PointStep
+{
     Point point;
     int step;
 
     // Comparison operator for PointStep
-    bool operator==(const PointStep ps) const {
+    bool operator==(const PointStep ps) const
+    {
         return ps.point == point;
     }
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     // Read input filename from command line arguments or use default
     std::string input = "input.txt";
-    if (argc > 1) {
+    if (argc > 1)
+    {
         input = argv[1];
     }
 
     // Open the input file
     std::fstream file(input);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         std::cerr << "Error opening file: " << input << '\n';
         return 1;
     }
@@ -82,13 +95,16 @@ int main(int argc, char* argv[]) {
     Point previous = {-1, -1};
 
     // Read the map and create the direction_map based on the characters
-    while (std::getline(file, line)) {
+    while (std::getline(file, line))
+    {
         map.push_back(line);
         direction_map.push_back({});
         direction_map.back().reserve(line.size() * 4);
 
-        for (const auto c : line) {
-            switch (c) {
+        for (const auto c : line)
+        {
+            switch (c)
+            {
             case '|':
                 direction_map.back().push_back({{true, false, true, false}});
                 break;
@@ -113,8 +129,10 @@ int main(int argc, char* argv[]) {
             case 'S':
                 direction_map.back().push_back({{true, true, true, true}});
                 S.row = direction_map.size() - 1;
-                for (int i = 0; i < line.size(); i++) {
-                    if (line[i] == 'S') {
+                for (int i = 0; i < line.size(); i++)
+                {
+                    if (line[i] == 'S')
+                    {
                         S.col = i;
                         break;
                     }
@@ -132,7 +150,8 @@ int main(int argc, char* argv[]) {
     std::vector<PointStep> visited;
 
     // Traverse the map until we reach the starting point again
-    while (current_ps.point != S || current_ps.step == 0) {
+    while (current_ps.point != S || current_ps.step == 0)
+    {
         visited.push_back(current_ps);
         const auto new_current_point = get_next_point(current_ps.point, previous, map, direction_map);
         previous = current_ps.point;
